@@ -9,23 +9,29 @@ export default async (req, res) => {
       Authorization: `Bearer ${WHISPER_API_KEY}`,
     }
     const audioFile = {
-      file: fs.createReadStream('./tempfile.wav'),
+      file: fs.createReadStream('./public/audio/jamaican.mp3'),
     }
     const data = {
-      fileType: 'wav', //default is wav
+      // fileType: 'wav', //default is wav
+      fileType: 'mp3', //default is wav
       diarization: 'false',
       //Note: setting this to be true will slow down results.
       //Fewer file types will be accepted when diarization=true
       numSpeakers: '2',
-      file: audioFile,
+      // file: audioFile,
       //if using diarization, you can inform the model how many speakers you have
       //if no value set, the model figures out numSpeakers automatically!
-      // url: 'URL_OF_STORED_AUDIO_FILE', //can't have both a url and file sent!
+      url: 'http://sounds.bl.uk/resources/learning/soundsfamiliar/longer-clips/minorityethnic/sheffield.mp3', //can't have both a url and file sent!
       language: 'en', //if this isn't set, the model will auto detect language,
       task: 'transcribe', //default is transcribe. Other option is "translate"
       //translate will translate speech from language to english
     }
-    return res.status(200).send('Good whisperAPI call.')
+    const resp = await axios.post(url, data)
+    console.log(resp)
+    // return res.status(200).send(resp.data)
+    res.setHeader('Content-Type', 'application/json')
+    res.setHeader('Cache-Control', 'max-age=180000')
+    res.end(JSON.stringify(resp))
   } catch (err) {
     return res.status(500)
   }

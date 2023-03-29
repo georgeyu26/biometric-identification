@@ -1,0 +1,109 @@
+---
+title: 'Voice API findings and results'
+date: '2023-03-28'
+tags: ['writings', 'speech-to-text', 'voice']
+draft: false
+summary: 'The Time Traveller (for so it will be convenient to speak of him) was
+expounding a recondite matter to us. His pale grey eyes shone and
+twinkled, and his usually pale face was flushed and animated...'
+---
+
+# Voice API findings and testing results
+
+Our group took the liberty to test two very popular and growing speech-to-text algorithms.
+
+We tried both the WhisperAPI by OpenAI, and also Google Cloud's popular solution to the problem
+
+WhisperAPI could be called in one simple HTTP POST request and can tanscribe that audio very easily with the use of
+an API key. I was able to run the API on the file URL, and the API would download and transcribe the file without problem.
+The response includes the text, but also timings of when each word is transcribed.
+
+```bash
+curl --request POST \
+--url 'https://transcribe.whisperapi.com' \
+--header 'Authorization: Bearer YOUR_API_KEY' \
+-F "file=@YOUR_FILE_PATH" \
+-F "url=YOUR_URL" \
+-F "diarization=false" \
+-F "numSpeakers=2" \
+-F "fileType=YOUR_FILE_TYPE" \
+-F "language=en" \
+-F "task=transcribe"
+```
+
+GCP on the other hand is more complex to setup, you must have an account with free-tier and payment methods setup beforehand for
+it to function. They provide 60 minutes of free tier, and paid after that. Google trades simplicity for better language support and customizability.
+There are dialects of English selected, but for our example we will use Canadian.
+
+The process of getting the text in GCP is also more difficult, the results are posted in JSON format, but they are not grouped together.
+
+# Tests
+
+## Test Format
+
+The tests we will run are limited in scope, since we do not have too much datasets to work with.
+In the case of limited data sets, we handpicked a couple of interesting people with different accents from the traditional American or English accents
+and tried to gauge the accuracy of these services.
+
+## Jamaican/Carribean man speaking english
+
+We will provide the transcriptions of each service in markdown blocks.
+
+### Original Text
+
+```
+Clare: What was your first impression of Sheffield when you came here?
+
+Joseph: Well it was funny, because when I look around and see the houses, everything was in one.
+Back home in Jamaica each individual have their own home and spaces; you have your own land; we didn't have a great big houses.
+People have the, were of, of the precession that we were living in trees and all sort of thing than house, like some time they're portray that on t, on the radio and on television.
+But there ain't anything like that.
+We all have our own home; nice little home and we have great deal of land.
+Your next neighbour might be so many metres away from you and things weren't single file.
+When I arrive in England and when I look and see the houses I thought they were factories, because everything all together.
+Then after a few days you get to understand that that's not so.
+These were houses and then you realise how a detach house is, semi-detach and then you just automatic, automatically got into the swing and accept what you've seen here.
+But for me I was comfortable as I says and, uhm, in couple of days I foun, I got my own, I got a job and that makes things easy.
+And then I work on that job for a few months and then I s, went to, we start recruiting, because my relative, they were involve in this Community Association business and they were in the process of, uhm, finding homes for people that just arriving, new arrival in this country and, uh, helping them settle down and finding jobs.
+So I got in the midst of that.
+So with me having, getting that bit of knowledge, things comes easy to me and when Sheffield Transport start to recruit people for conducting on trams I went down and took an interview and I start working as a conductor.
+I was one of the first black person to, uhm, start it on the Sheffield Tramway and from that they took the trams off and I became a tr, bus, uh, bus conductor for couple of weeks.
+And then I was a driver and I've done that for thirty-five-and-a-half years.
+```
+
+### Result of WhisperAPI
+
+```
+What was your first impression of Jeff Yule when you came here? It was funny because when I look around and see the houses everything was in one.
+Back home in Jamaica, each individual of their own home and spaces, your own land.
+We didn't have a great big houses.
+People of the precession that we were living in trees and also out of the dugouts.
+But sometimes they're portrayed at an unbeirutable television.
+But we are in anything like that.
+We are our own home, nicely close and we have a great deal of land.
+Your next neighbor might be so many meters away from you.
+And things were in single five.
+When they arrived in England and when I look and see the houses, I thought they were factories because everything is all together.
+Then after a few days you get to understand that that's not so.
+These were houses and then you realize that the detachment was a semi detachment.
+And then you just automatically go into this thing and accept what you've seen here.
+But for me I was comfortable as I said and in a couple of days I got a job and that makes things easy.
+And then I worked on that job for a few months and then we start recruiting because my relatives were involved in this community association business and they were in the process of finding homes for people that just arrived in your rival in this country and helping them settle down and find jobs.
+So I got into the midst of that.
+With me having getting that bit of knowledge, things comes easy to me and when she'll transport starter recruits, people for conducting and trams, I went down and took an interview and I started working as a conductor.
+I was one of the first black person to start it in the Sheffield Tramway and from that the trams off and I became a bus conductor for a couple of weeks and then a bus driver and I don't know what 35 and a half years.
+
+```
+
+### Result of Google Cloud Platform
+
+The text in GCP is less formal in our results in Canadian English
+
+```
+what was your first impression of Jack you when you came here
+but it was funny cuz when I look around and see the hours is everything was in one back home in Jamaica
+each individual have their own home and spaces you have your own life we didn't have a great big houses people of the procession that we were living in threes and a sort of things that sometime they're pretty tree.
+Turn on the radio and television nice little amount we have great deal of land your next neighbour might be so many metres away from you and things one single fact when I arrive in England when I look on CV hours is I thought they were factors because everything all together
+then after a few days you get to understand that that's not so these why I was his and then you realize or detach hose is attached and then you just automatically automatically got into this week and accept what you see in me I thought I'd like me oh I got a job and that makes things easy and then I work on that job for a few months and then I went to we start recruiting Because my relative they were involved in this Community Association business and they were in the process of finding a home for people that just arrived in your arrival in this country and helping them settle down and finding jobs
+so I got him the mist of that so wake me up in getting that bit of knowledge things comes easy to me and when Sheffield transport start to recruit people for conducting and Rams I went down at 2 p.m. interview and I thought working as a conductor I was one of the first black person to start it and a chef in Tramway and from that they took the trams up and I became a bus but conduct of a couple of weeks and then a bus driver and I'm done at 4:35 and a half years
+```
