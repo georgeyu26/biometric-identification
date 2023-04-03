@@ -12,16 +12,16 @@ export default async (req, res) => {
     const [result] = await client.faceDetection(fileName)
     const faces = result.faceAnnotations
 
-    faces.forEach((face, i) => {
-      console.log(`  Face #${i + 1}:`)
-      console.log(`    Joy: ${face.joyLikelihood}`)
-      console.log(`    Anger: ${face.angerLikelihood}`)
-      console.log(`    Sorrow: ${face.sorrowLikelihood}`)
-      console.log(`    Surprise: ${face.surpriseLikelihood}`)
-    })
+    const faceData = faces.map((face) => ({
+      joyLikelihood: face.joyLikelihood,
+      angerLikelihood: face.angerLikelihood,
+      sorrowLikelihood: face.sorrowLikelihood,
+      surpriseLikelihood: face.surpriseLikelihood,
+    }))
 
-    return res.status(200).send('faces success')
+    return res.status(200).json(faceData)
   } catch (err) {
-    return res.status(500)
+    console.error(err)
+    return res.status(500).send('Server Error')
   }
 }
