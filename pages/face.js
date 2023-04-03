@@ -15,7 +15,7 @@ export default function FacePage() {
   }
 
   function handleFileChange(e) {
-    setImageFile(event.target.files[0])
+    setImageFile(e.target.files[0])
   }
 
   async function handleSubmit(e) {
@@ -40,7 +40,7 @@ export default function FacePage() {
         <div>
           <label>Upload an image file here!</label>
         </div>
-        <input type="file" value={imageFile} accept="image/*" />
+        <input type="file" accept="image/*" onChange={handleFileChange} />
         <button type="submit">Submit</button>
       </form>
       <button className="mt-4 rounded-sm outline" onClick={handleDemo}>
