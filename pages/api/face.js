@@ -8,8 +8,9 @@ export default async (req, res) => {
       keyFilename: './Visionkey.json',
     })
 
-    const fileName = './face.png'
-    const [result] = await client.faceDetection(fileName)
+    const base64String = req.body.imageFile
+    const buffer = Buffer.from(base64String, 'base64')
+    const [result] = await client.faceDetection(buffer)
     const faces = result.faceAnnotations
 
     const faceData = faces.map((face) => ({

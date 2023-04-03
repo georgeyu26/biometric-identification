@@ -12,21 +12,26 @@ export default function FacePage() {
   async function handleSubmit(e) {
     e.preventDefault()
     console.log(imageFile)
-    const formData = new FormData()
-    formData.append('imageFile', imageFile)
-
-    try {
-      const resp = await axios.post('/api/face', formData)
-      console.log(resp.status)
-      setFaceData(resp.data)
-    } catch (err) {
-      console.error(err)
+    const reader = new FileReader()
+    reader.readAsDataURL(imageFile)
+    reader.onloadend = async () => {
+      const base64String = reader.result.replace(/^data:(.*;base64,)?/, '')
+      try {
+        const resp = await axios.post('/api/face', { imageFile: base64String })
+        console.log(resp.status)
+        setFaceData(resp.data)
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 
   return (
     <>
-      <div>Test for face recognition</div>
+      <div>
+        Facial recognition demo page which includes an upload and call to the Google Cloud Vision
+        API.
+      </div>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Upload an image file here!</label>
