@@ -64,9 +64,9 @@ Here is the original audio:
 ### Original Text
 
 ```
-Clare: What was your first impression of Sheffield when you came here?
+What was your first impression of Sheffield when you came here?
 
-Joseph: Well it was funny, because when I look around and see the houses, everything was in one.
+Well it was funny, because when I look around and see the houses, everything was in one.
 Back home in Jamaica each individual have their own home and spaces; you have your own land; we didn't have a great big houses.
 People have the, were of, of the precession that we were living in trees and all sort of thing than house, like some time they're portray that on t, on the radio and on television.
 But there ain't anything like that.
@@ -124,6 +124,8 @@ so I got him the mist of that so wake me up in getting that bit of knowledge thi
 
 Just from a simple glance, OpenAI's WhisperAPI does a lot better than Google's solution.
 It is able to distinguish quite easily, even through an accent the words that are being conveyed.
+In our example WhisperAPI was at 83% text similarity to the original transcript.
+Google cloud's accuracy was lower at 80%.
 
 Google on the otherhand, hand more random words or 'misheard words' that were registered in the transcription.
 This can be caused by Google's large selection of different languages, but not having a language similar to the Jamaican accent.
@@ -475,3 +477,21 @@ After text similarity check the results are:
 and a good job done for both companies.
 
 ## Overall findings from our investigation
+
+We found through investigations that there is still a lot of work to do in big tech on improving voice recognition
+to a better level. In comparison, the Open Source side of OpenAI has done an incredible job with English and understanding all types
+of accents without manually telling the program what it is. The accuracy figures of the WhisperAPI was consistently greater than Google's in terms of
+accuracy. Currently there is also the parallel of ChatGPT being a better AI Chatbot experience than Bard, meaning that big tech such as Google may not
+be the front runners of AI and ML algorithms currently.
+
+<img src="https://storage.googleapis.com/cs492-audio/images/WhisperAPI%20vs%20Google%20Cloud%20Platform%20speech%20transcription.png" />
+
+<i>Accuracy graph of various English accents</i>
+
+## Ethical conclusions
+
+In conclusion, there is a lot of progress in voice detection in OpenAI. Voice recognition from Google is currently lacking behind, but provides
+a decent experience. Some problems that can be found from the lack of accuracy is bad transcriptions in services such as Youtube videos, educational videos
+where instructors may have a vastly different accent. This can lead to a hard time for students to understand their english, or could offend the instructors
+for not being able to pick up on their English accent. On the bright side, the algorithms from OpenAI provide a great alternative to other companies
+being quite accurate in a diverse audio set.
