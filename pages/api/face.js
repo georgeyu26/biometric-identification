@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (req, res) => {
   try {
     const vision = require('@google-cloud/vision')
@@ -25,4 +26,12 @@ export default async (req, res) => {
     console.error(err)
     return res.status(500).send('Server Error')
   }
+}
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb', // Set desired value here
+    },
+  },
 }
