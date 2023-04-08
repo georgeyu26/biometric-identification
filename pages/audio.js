@@ -26,10 +26,13 @@ export default function WhisperPage() {
       const reader = new FileReader()
       reader.readAsDataURL(audioFile)
       reader.onloadend = async () => {
-        const base64String = reader.result.replace(/^data:(.*;base64,)?/, '')
+        const res = reader.result
+        const base64String = res.replace(/^data:(.*;base64,)?/, '')
         try {
-          const resp = await axios.post('/api/whisper', { audioFile: base64String })
-          console.log(resp.status)
+          var resp = await axios.post('/api/whisper', { audioFile: base64String })
+          console.log(resp)
+          resp = await axios.post('api/gcpstt', { audioFile: base64String })
+          console.log(resp)
         } catch (err) {
           console.error(err)
         }

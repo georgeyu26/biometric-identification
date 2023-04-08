@@ -25,11 +25,11 @@ export default async (req, res) => {
     const base64String = req.body.audioFile
     const buffer = Buffer.from(base64String, 'base64')
     var audioStream = Readable.from(buffer)
-    audioStream.path = `whisperaudio.mp3`
+    audioStream.path = `whisperaudio.wav`
     form.append('file', audioStream)
     form.append('diarization', 'false')
     form.append('numSpeakers', '2')
-    form.append('fileType', 'mp3')
+    form.append('fileType', 'flac')
     form.append('language', 'en')
     form.append('task', 'transcribe')
     const resp = await axios.post(url, form, {
