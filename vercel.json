@@ -3,5 +3,6 @@
     "api/test.js": {
       "includeFiles": "Visionkey.json"
     }
-  }
+  },
+  "files": ["/Audiokey.json", "Visionkey.json"]
 }
