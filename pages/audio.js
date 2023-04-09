@@ -47,7 +47,8 @@ export default function WhisperPage() {
         WhisperAPI Transcription demo page which includes an upload and call to the whisper API.
       </div>
       <div>
-        Whisper is a model created by OpenAI. The alternative we will compare to is AWS Rekognition.
+        Whisper is a model created by OpenAI. The alternative we will compare to is GCP speech to
+        text. Please upload Flac format files for test purposes.
       </div>
       <form onSubmit={handleSubmit}>
         <div>
@@ -56,9 +57,6 @@ export default function WhisperPage() {
         <input type="file" onChange={handleFileChange} />
         <button type="submit">Submit</button>
       </form>
-      <button className="mt-4 rounded-sm outline" onClick={handleDemo}>
-        Jamaican Transcribe Button
-      </button>
     </>
   )
 }

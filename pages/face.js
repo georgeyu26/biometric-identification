@@ -33,11 +33,13 @@ export default function FacePage() {
         API.
       </div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Upload an image file here!</label>
+        <div className="mt-4">
+          <label className="my-4 mb-4">Upload an image file here!</label>
         </div>
         <input type="file" accept="image/*" onChange={handleFileChange} />
-        <button type="submit">Submit</button>
+        <button className="rounded-md px-3 outline outline-2" type="submit">
+          Submit
+        </button>
       </form>
       <div>
         {faceData && (
