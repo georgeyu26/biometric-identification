@@ -5,6 +5,9 @@ const WHISPER_API_KEY = 'XJNKRP9CD14F2Z5Q4ZCJ3ZUKFJM48YYA'
 
 export default function WhisperPage() {
   const [audioFile, setAudioFile] = useState(null)
+  const [whisperTranscript, setWhisperTranscript] = useState('')
+  const [googleTranscript, setGoogleTranscript] = useState('')
+  const [loading, setLoading] = useState(false)
 
   async function handleDemo() {
     try {
@@ -29,10 +32,14 @@ export default function WhisperPage() {
         const res = reader.result
         const base64String = res.replace(/^data:(.*;base64,)?/, '')
         try {
+          setLoading(true)
           var resp = await axios.post('/api/whisper', { audioFile: base64String })
           console.log(resp)
+          setWhisperTranscript(resp.data.text)
           resp = await axios.post('api/gcpstt', { audioFile: base64String })
+          setGoogleTranscript(resp.data)
           console.log(resp)
+          setLoading(false)
         } catch (err) {
           console.error(err)
         }
@@ -55,8 +62,22 @@ export default function WhisperPage() {
           <label>Upload an audio file here!</label>
         </div>
         <input type="file" onChange={handleFileChange} />
-        <button type="submit">Submit</button>
+        <button className="rounded-sm px-2 outline outline-2" type="submit">
+          Submit
+        </button>
       </form>
+      <h1 className="mt-4 text-center text-xl">Transcription side to side</h1>
+      <div className="flex items-center justify-center">
+        {loading ? <h1>Loading...</h1> : null}
+        <div className="row-span-4  px-10">
+          <h1>Whisper API Transcription</h1>
+          <p className="outline outline-2">{whisperTranscript}</p>
+        </div>
+        <div className="row-span-4 px-10">
+          <h1>Google Cloud API Transcription</h1>
+          <p className="outline outline-2">{googleTranscript}</p>
+        </div>
+      </div>
     </>
   )
 }
